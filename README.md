@@ -74,4 +74,14 @@ ORDER BY ROUND(AVG(p.value),2)
 DESC
 LIMIT 1
 -----------------------------------------------------------
+--Найти товары с нулевым остатком. Вывести имя товара и его цену
 
+SELECT g.name, MIN(q.value) FROM goods g
+  Join quantity q ON q.goods_id = g.id
+  Join prices p ON p.goods_id = g.id
+  Join suppliers s ON s.id = g.supplier_id
+  Join manufacturer m ON m.id = s.manufacturer_id
+GROUP BY g.name
+ORDER BY MIN(q.value)
+ASC
+LIMIT 1
