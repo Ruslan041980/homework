@@ -7,6 +7,12 @@ SELECT g.id, g.name, q.value, p.value, s.id, m.name, m.location FROM goods g
   Join prices p ON p.goods_id = g.id
   Join suppliers s ON s.id = g.supplier_id
   Join manufacturer m ON m.id = s.manufacturer_id
+  ----------------------------------------------------
+  SELECT g.id, g.name AS ТОВАР, q.value AS КОЛИЧЕСТВО, p.value AS ЦЕНА, m.name AS ПРОИЗВОДИТЕЛЬ, m.location AS СТРАНА FROM goods g
+  Join quantity q ON q.goods_id = g.id
+  Join prices p ON p.goods_id = g.id
+  Join suppliers s ON s.id = g.supplier_id
+  Join manufacturer m ON m.id = s.manufacturer_id
 
 ---------------------------------------------------------------------------------
 SELECT * FROM goods
@@ -55,3 +61,17 @@ SELECT g.name AS ТОВАР, p.value AS ЦЕНА FROM goods g
 	Join prices p ON p.goods_id = g.id
 WHERE value = (SELECT MAX(value) FROM prices)
 ------------------------------------------------------------
+--Найти производителя с самой большой средней ценой за товары. 
+--Вывести имя производителя и среднюю стоимость
+
+SELECT m.name AS ПРОИЗВОДИТЕЛЬ, ROUND(AVG(p.value),2) FROM goods g
+  Join quantity q ON q.goods_id = g.id
+  Join prices p ON p.goods_id = g.id
+  Join suppliers s ON s.id = g.supplier_id
+  Join manufacturer m ON m.id = s.manufacturer_id
+GROUP BY m.name
+ORDER BY ROUND(AVG(p.value),2)
+DESC
+LIMIT 1
+-----------------------------------------------------------
+
